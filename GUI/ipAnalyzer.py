@@ -41,17 +41,13 @@ def generateTorIpDB():
 def locationOf(ip):
     database = IP2Location.IP2Location()
     database.open(os.path.join("data", "IP-COUNTRY.BIN"))
-    full_answer = database.get_all(
-        ip)  # {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
+    full_answer = database.get_all(ip)  # {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
     location = full_answer.country_long
     return location
 
 
 def checkTorNode(ip, tor_database):
-    for ip_tor in tor_database:
-        if ip == ip_tor:
-            return True
-    return False
+    return ip in tor_database
 
 
 def getIPListFrom(file_to_analyze):
@@ -63,10 +59,11 @@ def getIPListFrom(file_to_analyze):
 
 class IPAnalyzer():
     def __init__(self, file_to_analyze):
-        self.fileToAnalyze = file_to_analyze
-        self.iPList = getIPListFrom(file_to_analyze)
-        self.findLocationOfIpList()
-        self.checkTorNodeOfIpList()
+        if file_to_analyze != "":
+            self.fileToAnalyze = file_to_analyze
+            self.iPList = getIPListFrom(file_to_analyze)
+            self.findLocationOfIpList()
+            self.checkTorNodeOfIpList()
 
     def findLocationOfIpList(self):
         ip_list = self.iPList
