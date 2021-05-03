@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 import os
 import IP2Location
+import IP2Proxy
 
 
 def remove_entersFromAndMakeList(ip_list):
@@ -46,6 +47,14 @@ def locationOf(ip):
     return location
 
 
+def proxyOf(ip):
+    database = IP2Proxy.IP2Proxy()
+    database.open(os.path.join("data", "IP2PROXY-LITE-PX2.BIN"))
+    full_answer = database.get_all(ip)  # {'is_proxy': 0, 'proxy_type': '-'}
+    is_proxy = full_answer['is_proxy'] == True
+    return is_proxy
+
+
 def checkTorNode(ip, tor_database):
     return ip in tor_database
 
@@ -64,6 +73,7 @@ class IPAnalyzer():
             self.iPList = getIPListFrom(file_to_analyze)
             self.findLocationOfIpList()
             self.checkTorNodeOfIpList()
+						self.checkProxyOfIpList()
 
     def findLocationOfIpList(self):
         ip_list = self.iPList
@@ -79,6 +89,14 @@ class IPAnalyzer():
 
     def getIPList(self):
         return self.iPList
+
+    def checkProxyOfIpList(self):
+        ip_list = self.iPList
+        for ip in ip_list:
+            is_proxy = proxyOf(ip[0])
+            ip.append(is_proxy)
+
+
 
 
 tor_database = generateTorIpDB()
