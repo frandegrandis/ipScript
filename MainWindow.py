@@ -3,6 +3,8 @@ import tkinter as tk
 
 
 
+
+
 class MainWindow:
 
     def __init__(self):
@@ -63,7 +65,7 @@ class MainWindow:
         # option in the navbar:
         options = ["Home", "Cargar IPs", "Exportar IPs", "Métricas", "Mapa"]
         # Navbar Option Buttons:
-        for i in range(5):
+        for i in range(len(options)):
             tk.Button(self.navRoot, text=options[i], font="BahnschriftLight 15", bg="gray17", fg=self.color["white"], activebackground="gray17", activeforeground="green", bd=0).place(x=25, y=y)
             y += 40
 
@@ -71,34 +73,39 @@ class MainWindow:
         self.closeBtn = tk.Button(self.navRoot, image=self.closeIcon, bg=self.color["green"], activebackground=self.color["green"], bd=0, command=self.switch)
         self.closeBtn.place(x=250, y=10)
 
+    def configureOpeningNavbar(self):
+        # make root dim:
+        self.brandLabel.config(bg=self.color["grey"], fg="#5F5A33")
+        self.homeLabel.config(bg=self.color["darkgrey"])
+        self.topFrame.config(bg=self.color["darkgrey"])
+        self.root.config(bg=self.color["grey"])
+
+        # created animated Navbar opening:
+        for x in range(-300, 0):
+            self.navRoot.place(x=x, y=0)
+            self.topFrame.update()
+
+        # turing button ON:
+        self.btnState = True
+
+    def configureClosingNavbar(self):
+        for x in range(301):
+            self.navRoot.place(x=-x, y=0)
+            self.topFrame.update()
+
+        # resetting widget colors:
+        self.brandLabel.config(bg="white", fg="green")
+        self.homeLabel.config(bg=self.color["green"])
+        self.topFrame.config(bg=self.color["green"])
+        self.root.config(bg="white")
+
+        # turning button OFF:
+        self.btnState = False
+
     def switch(self):
 
         if self.btnState is True:
             # create animated Navbar closing:
-            for x in range(301):
-                self.navRoot.place(x=-x, y=0)
-                self.topFrame.update()
-
-            # resetting widget colors:
-            self.brandLabel.config(bg="white", fg="green")
-            self.homeLabel.config(bg=self.color["green"])
-            self.topFrame.config(bg=self.color["green"])
-            self.root.config(bg="white")
-
-            # turning button OFF:
-            self.btnState = False
+            self.configureClosingNavbar()
         else:
-            # make root dim:
-            self.brandLabel.config(bg=self.color["grey"], fg="#5F5A33")
-            self.homeLabel.config(bg=self.color["darkgrey"])
-            self.topFrame.config(bg=self.color["darkgrey"])
-            self.root.config(bg=self.color["grey"])
-
-            # created animated Navbar opening:
-            for x in range(-300, 0):
-                self.navRoot.place(x=x, y=0)
-                self.topFrame.update()
-
-            # turing button ON:
-            self.btnState = True
-
+            self.configureOpeningNavbar()
