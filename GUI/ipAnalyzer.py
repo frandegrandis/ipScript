@@ -11,18 +11,6 @@ def remove_entersFromAndMakeList(ip_list):
         ip_list[i] = [ip]
 
 
-'''
-def locationOf(ip):
-    api_key = 'your_api_key'
-    api_url = 'https://geo.ipify.org/api/v1?'
-    url = api_url + 'apiKey=' + api_key + '&ipAddress=' + ip
-    location = urlopen(url).read().decode('utf8')
-    #location = 'bsas'
-    print(location)
-    return location
-'''
-
-
 def functionToFilter(text):
     return "ExitAddress" in str(text)  # returns if the text Contains ExitAddress
 
@@ -71,9 +59,7 @@ class IPAnalyzer():
         if file_to_analyze != "":
             self.fileToAnalyze = file_to_analyze
             self.iPList = getIPListFrom(file_to_analyze)
-            self.findLocationOfIpList()
-            self.checkTorNodeOfIpList()
-						self.checkProxyOfIpList()
+            self.processIpList()
 
     def findLocationOfIpList(self):
         ip_list = self.iPList
@@ -96,7 +82,15 @@ class IPAnalyzer():
             is_proxy = proxyOf(ip[0])
             ip.append(is_proxy)
 
-
+    def processIpList(self):
+        ip_list = self.iPList
+        for ip in ip_list:
+            location = locationOf(ip[0])
+            is_proxy = proxyOf(ip[0])
+            tor_node = str(checkTorNode(ip[0], tor_database))
+            ip.append(location)
+            ip.append(is_proxy)
+            ip.append(tor_node)
 
 
 tor_database = generateTorIpDB()
