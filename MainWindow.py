@@ -34,7 +34,8 @@ class MainWindow:
         self.root.mainloop()
 
     def setNavBar(self):
-
+        # option in the navbar:
+        navbar_options = ["Home", "Cargar IPs", "Exportar IPs", "Métricas", "Mapa", "Ejemplo"]
         # loading Navbar icon image:
         self.navIcon = PhotoImage(file="Resources/menu.png")
         self.closeIcon = PhotoImage(file="Resources/close.png")
@@ -62,11 +63,9 @@ class MainWindow:
 
         # set y-coordinate of Navbar widgets:
         y = 80
-        # option in the navbar:
-        options = ["Home", "Cargar IPs", "Exportar IPs", "Métricas", "Mapa"]
         # Navbar Option Buttons:
-        for i in range(len(options)):
-            tk.Button(self.navRoot, text=options[i], font="BahnschriftLight 15", bg="gray17", fg=self.color["white"], activebackground="gray17", activeforeground="green", bd=0).place(x=25, y=y)
+        for i in range(len(navbar_options)):
+            tk.Button(self.navRoot, text=navbar_options[i], font="BahnschriftLight 15", bg="gray17", fg=self.color["white"], activebackground="gray17", activeforeground="green", bd=0).place(x=25, y=y)
             y += 40
 
         # Navbar Close Button:
@@ -89,6 +88,7 @@ class MainWindow:
         self.btnState = True
 
     def configureClosingNavbar(self):
+        # create animated Navbar closing:
         for x in range(301):
             self.navRoot.place(x=-x, y=0)
             self.topFrame.update()
@@ -105,7 +105,6 @@ class MainWindow:
     def switch(self):
 
         if self.btnState is True:
-            # create animated Navbar closing:
             self.configureClosingNavbar()
         else:
             self.configureOpeningNavbar()
