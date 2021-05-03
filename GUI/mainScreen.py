@@ -64,7 +64,6 @@ class UiMainWindow(QtWidgets.QWidget):
 
     def updateLayout(self, file_name):  # This message update the layout
         self.FileRouteLabel.setText(file_name)
-        print('flag')
         if file_name != '':
             self.grid_layout.removeWidget(self.ipTable)  # we remove the actual table
             data = generateDataFrom(file_name)

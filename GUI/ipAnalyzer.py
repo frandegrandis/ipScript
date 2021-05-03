@@ -27,31 +27,27 @@ def functionToFilter(text):
 
 
 def generateTorIpDB():
-    tor_api = urlopen('https://check.torproject.org/exit-addresses')
+    # La api funciona cada 30 min, puse todo en un archivo para poder hacer pruebas                                                                                                                                         .
+    # tor_api = urlopen("https://www.dan.me.uk/torlist/?exit")
+    tor_api = open(os.path.join("data", "torIps.txt"))
     tor_database = tor_api.readlines()
-    tor_database = list(filter(functionToFilter, tor_database))
-    for index in range(len(tor_database)):
-        ip = tor_database[index]
-        ip = str(ip).split(" ")[1]
-        tor_database[index] = ip
-        print(ip)
+    for i in range(len(tor_database)):
+        ip = tor_database[i]
+        tor_database[i] = ip.replace('\n', '')
     return tor_database
 
 
 def locationOf(ip):
     database = IP2Location.IP2Location()
     database.open(os.path.join("data", "IP-COUNTRY.BIN"))
-    full_answer = database.get_all(
-        ip)  # {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
+    full_answer = database.get_all(ip)
+    # {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
     location = full_answer.country_long
     return location
 
 
 def checkTorNode(ip, tor_database):
-    for ip_tor in tor_database:
-        if ip == ip_tor:
-            return True
-    return False
+    return ip in tor_database
 
 
 def getIPListFrom(file_to_analyze):
@@ -63,10 +59,11 @@ def getIPListFrom(file_to_analyze):
 
 class IPAnalyzer():
     def __init__(self, file_to_analyze):
-        self.fileToAnalyze = file_to_analyze
-        self.iPList = getIPListFrom(file_to_analyze)
-        self.findLocationOfIpList()
-        self.checkTorNodeOfIpList()
+        if file_to_analyze != "":
+            self.fileToAnalyze = file_to_analyze
+            self.iPList = getIPListFrom(file_to_analyze)
+            self.findLocationOfIpList()
+            self.checkTorNodeOfIpList()
 
     def findLocationOfIpList(self):
         ip_list = self.iPList
@@ -76,10 +73,12 @@ class IPAnalyzer():
 
     def checkTorNodeOfIpList(self):
         ip_list = self.iPList
-        tor_database = generateTorIpDB()
         for ip in ip_list:
             tor_node = str(checkTorNode(ip[0], tor_database))
             ip.append(tor_node)
 
     def getIPList(self):
         return self.iPList
+
+
+tor_database = generateTorIpDB()
