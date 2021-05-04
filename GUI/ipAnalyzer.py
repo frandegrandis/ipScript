@@ -2,8 +2,13 @@ from urllib.request import urlopen
 import os
 import IP2Location
 import IP2Proxy
-
-
+import geoip2.database
+import IP2Proxy
+import sys
+import requests
+import maxminddb
+import pandas as pd
+import datetime
 def remove_entersFromAndMakeList(ip_list):
     for i in range(len(ip_list)):
         ip = ip_list[i]
@@ -16,35 +21,77 @@ def functionToFilter(text):
 
 
 def generateTorIpDB():
-    # La api funciona cada 30 min, puse todo en un archivo para poder hacer pruebas                                                                                                                                         .
-    # tor_api = urlopen("https://www.dan.me.uk/torlist/?exit")
-    tor_api = open(os.path.join("data", "torIps.txt"))
+    request = requests.get("https://www.dan.me.uk/torlist/?exit")
+    if request.status_code==200:
+        fechaActual = datetime.datetime.now()
+        with open('data/registroFechas.txt', 'a') as writer:
+            writer.write("\n" + str(fechaActual))
+        writer.close()
+        with open('data/nodosTor.txt', 'w') as writer:
+            writer.write(request.text)
+        writer.close()
+    tor_api = open(os.path.join("data", "nodosTor.txt"))
     tor_database = tor_api.readlines()
+    #db to validate tor nodes
     for i in range(len(tor_database)):
         ip = tor_database[i]
         tor_database[i] = ip.replace('\n', '')
-    return tor_database
+    tor_api = urlopen('https://check.torproject.org/exit-addresses')
+    tor_validationdb = tor_api.readlines()
+    tor_validationdb = list(filter(functionToFilter, tor_validationdb))
+    for index in range(len(tor_validationdb)):
+        ip = tor_validationdb[index]
+        ip = str(ip).split(" ")[1]
+        tor_validationdb[index] = ip
+    return tor_database,tor_validationdb
 
 
 def locationOf(ip):
-    database = IP2Location.IP2Location()
-    database.open(os.path.join("data", "IP-COUNTRY.BIN"))
-    full_answer = database.get_all(ip)
-    # {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
-    location = full_answer.country_long
-    return location
+    with geoip2.database.Reader('data/geolocalizar/dbip-country-lite-2021-04.mmdb') as db:
+        try:
+            full_answer = db.country(ip)# {'ip': '172.217.172.110', 'country_short': 'US', 'country_long': 'United States'}
+            location = full_answer.country.name
+        except:
+            location="N/A"
+    db.close()
+    with geoip2.database.Reader('data/geolocalizar/GeoLite2-Country.mmdb') as database2:
+       try:
+        consulta = database2.country(ip)
+        verificacion = consulta.country.name
+       except:
+           verificacion="N/A"
+    database2.close()
+    return location if verificacion==location else "N/A"
 
 
 def proxyOf(ip):
     database = IP2Proxy.IP2Proxy()
-    database.open(os.path.join("data", "IP2PROXY-LITE-PX2.BIN"))
+    database.open(os.path.join("data/proxy_tor", "IP2PROXY-LITE-PX2.BIN"))
     full_answer = database.get_all(ip)  # {'is_proxy': 0, 'proxy_type': '-'}
     is_proxy = full_answer['is_proxy'] == True
     return is_proxy
 
+def asnOf(ip):
+    organizationName="N/A"
+    with geoip2.database.Reader('data/asn/GeoLite2-ASN.mmdb') as db:
+        try:
+            full_response=db.asn(ip)
+            organizationName = full_response.autonomous_system_organization
+            asn= full_response.autonomous_system_number
+        except:
+            asn="N/A"
+    db.close()
+    with maxminddb.open_database(('data/asn/dbip-asn-lite-2021-04.mmdb')) as db2:
+        try:
+            full_response = db2.get(ip)
+            validation = full_response['autonomous_system_number']
+        except:
+            validation = "N/A"
+    db2.close()
+    return organizationName if asn==validation else "N/A"
 
 def checkTorNode(ip, tor_database):
-    return ip in tor_database
+    return ip in tor_database and  ip in tor_validation
 
 
 def getIPListFrom(file_to_analyze):
@@ -88,9 +135,11 @@ class IPAnalyzer():
             location = locationOf(ip[0])
             is_proxy = proxyOf(ip[0])
             tor_node = str(checkTorNode(ip[0], tor_database))
+            asn=asnOf(ip[0])
             ip.append(location)
             ip.append(is_proxy)
             ip.append(tor_node)
+            ip.append(asn)
 
 
-tor_database = generateTorIpDB()
+tor_database,tor_validation = generateTorIpDB()
