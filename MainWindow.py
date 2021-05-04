@@ -27,9 +27,15 @@ class MainWindow(ABC):
         self.root.geometry("1280x720")
 
     @abstractmethod
+    def setScreenTitle(self, title):
+        labelTitle = tk.Label(self.root, text=title, font="Bahnschrift 20 bold", bg="white")
+        labelTitle.place(x=450, y=80)
+
+    @abstractmethod
     def setMainWindow(self):
         self.setRoot()
         self.setNavBar()
+        self.setScreenTitle()
 
     def setNavBar(self):
         # option in the navbar:
@@ -56,9 +62,9 @@ class MainWindow(ABC):
         self.navbarBtn.place(x=10, y=10)
 
         # setting Navbar frame:
-        self.navRoot = tk.Frame(self.root, bg="gray17", height=1000, width=300)
-        self.navRoot.place(x=-300, y=0)
-        tk.Label(self.navRoot, font="Bahnschrift 15", bg=self.color["green"], fg="black", height=2, width=300, padx=20).place(x=0, y=0)
+        self.navRoot = tk.Frame(self.root, bg="gray17", height=1000, width=270)
+        self.navRoot.place(x=-270, y=0)
+        tk.Label(self.navRoot, font="Bahnschrift 15", bg=self.color["green"], fg="black", height=2, width=270, padx=20).place(x=0, y=0)
 
         # set y-coordinate of Navbar widgets:
         y = 80
@@ -70,17 +76,17 @@ class MainWindow(ABC):
 
         # Navbar Close Button:
         self.closeBtn = tk.Button(self.navRoot, image=self.closeIcon, bg=self.color["green"], activebackground=self.color["green"], bd=0, command=self.switch)
-        self.closeBtn.place(x=250, y=10)
+        self.closeBtn.place(x=240, y=12)
 
     def configureOpeningNavbar(self):
         # make root dim:
         # self.brandLabel.config(bg=self.color["grey"], fg="#5F5A33")
-        self.homeLabel.config(bg=self.color["darkgrey"])
-        self.topFrame.config(bg=self.color["darkgrey"])
-        self.root.config(bg=self.color["grey"])
+        # self.homeLabel.config(bg=self.color["darkgrey"])
+        # self.topFrame.config(bg=self.color["darkgrey"])
+        # self.root.config(bg=self.color["grey"])
 
         # created animated Navbar opening:
-        for x in range(-300, 0):
+        for x in range(-270, 0):
             self.navRoot.place(x=x, y=0)
             self.topFrame.update()
 
@@ -89,7 +95,7 @@ class MainWindow(ABC):
 
     def configureClosingNavbar(self):
         # create animated Navbar closing:
-        for x in range(301):
+        for x in range(271):
             self.navRoot.place(x=-x, y=0)
             self.topFrame.update()
 

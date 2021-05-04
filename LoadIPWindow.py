@@ -23,10 +23,9 @@ class LoadIPWindow(MainWindow, ABC):
         super().setMainWindow()
         self.setBrowseFileWidget()
         self.setTextBoxWidget()
-        # Aca agregamos las cosas extra que hace
-        # Setlabels
-        # SetWidgets
-        # etc...
+
+    def setScreenTitle(self):
+        super().setScreenTitle("Cargar IPs en el Sistema")
 
     # BROWSE FILES WIDGET
 
@@ -50,7 +49,7 @@ class LoadIPWindow(MainWindow, ABC):
             print(content) # To test if it's working
 
     def setBrowseFileWidget(self):
-        label2 = tk.Label(self.root, text="O cargue un archivo con las IPs", font="Bahnschrift 13", bg="white")
+        label2 = tk.Label(self.root, text="O cargue un archivo con las IPs:", font="Bahnschrift 13", bg="white")
         label2.place(x=297, y=450)
 
         btn = Button(self.root, text='Abrir', command=lambda: self.openFile())
