@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter.ttk import *
 from MainWindow import MainWindow
 from tkinter.filedialog import askopenfile
-from tkinter.filedialog import askopenfilename
 import tkinter as tk
 
 
@@ -25,7 +24,7 @@ class LoadIPWindow(MainWindow, ABC):
         self.setTextBoxWidget()
 
     def setScreenTitle(self):
-        super().setScreenTitle("Cargar IPs en el Sistema")
+        super().setScreenTitle("Cargar IPs en el Sistema", 450)
 
     # BROWSE FILES WIDGET
 

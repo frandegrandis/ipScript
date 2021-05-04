@@ -27,9 +27,9 @@ class MainWindow(ABC):
         self.root.geometry("1280x720")
 
     @abstractmethod
-    def setScreenTitle(self, title):
+    def setScreenTitle(self, title, x):
         labelTitle = tk.Label(self.root, text=title, font="Bahnschrift 20 bold", bg="white")
-        labelTitle.place(x=450, y=80)
+        labelTitle.place(x=x, y=80)
 
     @abstractmethod
     def setMainWindow(self):
