@@ -9,6 +9,7 @@ import requests
 import maxminddb
 import pandas as pd
 import datetime
+from zipfile import ZipFile
 def remove_entersFromAndMakeList(ip_list):
     for i in range(len(ip_list)):
         ip = ip_list[i]
@@ -103,6 +104,8 @@ def getIPListFrom(file_to_analyze):
 
 class IPAnalyzer():
     def __init__(self, file_to_analyze):
+     with ZipFile('data.zip', 'r') as zipObj:
+            zipObj.extractall()
         if file_to_analyze != "":
             self.fileToAnalyze = file_to_analyze
             self.iPList = getIPListFrom(file_to_analyze)
