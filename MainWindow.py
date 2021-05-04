@@ -24,7 +24,7 @@ class MainWindow(ABC):
         # setting root window:
         self.root.title("IP Tracker")
         self.root.config(bg="white")
-        self.root.geometry("1600x900")
+        self.root.geometry("1280x720")
 
     @abstractmethod
     def setMainWindow(self):
