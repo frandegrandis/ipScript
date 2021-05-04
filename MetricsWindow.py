@@ -3,7 +3,7 @@ import tkinter as tk
 from MainWindow import MainWindow
 
 
-class ExportIPWindow(MainWindow, ABC):
+class MetricsWindow(MainWindow, ABC):
 
     def setMainWindow(self):
         super().setMainWindow()

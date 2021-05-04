@@ -1,11 +1,9 @@
+from abc import abstractmethod, ABC
 from tkinter import PhotoImage
 import tkinter as tk
 
 
-
-
-
-class MainWindow:
+class MainWindow(ABC):
 
     def __init__(self):
 
@@ -28,14 +26,15 @@ class MainWindow:
         self.root.config(bg="white")
         self.root.geometry("1600x900")
 
+    @abstractmethod
     def setMainWindow(self):
         self.setRoot()
         self.setNavBar()
-        self.root.mainloop()
 
     def setNavBar(self):
         # option in the navbar:
         navbar_options = ["Home", "Cargar IPs", "Exportar IPs", "Métricas", "Mapa", "Ejemplo"]
+
         # loading Navbar icon image:
         self.navIcon = PhotoImage(file="Resources/menu.png")
         self.closeIcon = PhotoImage(file="Resources/close.png")
@@ -49,8 +48,8 @@ class MainWindow:
         self.homeLabel.pack(side="right")
 
         # Main label text:
-        self.brandLabel = tk.Label(self.root, text="Pantalla\nPrincipal", font="System 30", bg="white", fg="green")
-        self.brandLabel.place(x=750, y=450)
+        # self.brandLabel = tk.Label(self.root, text="Pantalla\nPrincipal", font="System 30", bg="white", fg="green")
+        # self.brandLabel.place(x=750, y=450)
 
         # Navbar button:
         self.navbarBtn = tk.Button(self.topFrame, image=self.navIcon, bg=self.color["green"], activebackground=self.color["green"], bd=0, padx=20, command=self.switch)
@@ -63,6 +62,7 @@ class MainWindow:
 
         # set y-coordinate of Navbar widgets:
         y = 80
+
         # Navbar Option Buttons:
         for i in range(len(navbar_options)):
             tk.Button(self.navRoot, text=navbar_options[i], font="BahnschriftLight 15", bg="gray17", fg=self.color["white"], activebackground="gray17", activeforeground="green", bd=0).place(x=25, y=y)
@@ -74,7 +74,7 @@ class MainWindow:
 
     def configureOpeningNavbar(self):
         # make root dim:
-        self.brandLabel.config(bg=self.color["grey"], fg="#5F5A33")
+        # self.brandLabel.config(bg=self.color["grey"], fg="#5F5A33")
         self.homeLabel.config(bg=self.color["darkgrey"])
         self.topFrame.config(bg=self.color["darkgrey"])
         self.root.config(bg=self.color["grey"])
@@ -94,7 +94,7 @@ class MainWindow:
             self.topFrame.update()
 
         # resetting widget colors:
-        self.brandLabel.config(bg="white", fg="green")
+        # self.brandLabel.config(bg="white", fg="green")
         self.homeLabel.config(bg=self.color["green"])
         self.topFrame.config(bg=self.color["green"])
         self.root.config(bg="white")
