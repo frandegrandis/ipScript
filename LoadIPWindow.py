@@ -17,6 +17,7 @@ class LoadIPWindow(MainWindow, ABC):
         self.btnState = False
         self.inputTxt = None
         self.entry = None
+        self.filepath = tk.StringVar()
 
     def setMainWindow(self):
         super().setMainWindow()
@@ -36,11 +37,14 @@ class LoadIPWindow(MainWindow, ABC):
                                                 ('CSV Files', '*.csv')])
 
         if file is not None:
+            # X-Scrollbar in case path is longer than entry box
+            #TODO tampoco me voy a calentar haciendo esto ahora, no es tan importante
+
             # Show directory path
+            self.filepath.set(file.name)
+            self.entry = Entry(self.root, textvariable=self.filepath, width=90, state=DISABLED)
+            self.entry.place(x=400, y=487)
 
-            filename = askopenfilename()
-
-            self.entry.insert(0, filename)
             # Do magic with the IPs
             content = file.read()
             print(content) # To test if it's working
