@@ -1,27 +1,22 @@
 import tkinter as tk
 import tksheet
 
+
 class ipTable:
 
-    def __init__(self):
+    def __init__(self,data):
         top = tk.Tk()
-        sheet = tksheet.Sheet(top)
+        headers = ["IP", "Location", "Is Proxy","Tor Node", "ASM"]
+        sheet = tksheet.Sheet(top, headers=headers)
         sheet.grid()
-        sheet.set_sheet_data([[f"{ri+cj}" for cj in range(4)] for ri in range(1)])
+        sheet.set_sheet_data(data)
         sheet.enable_bindings(("single_select",
                                "row_select",
                                "column_width_resize",
                                "arrowkeys",
                                "right_click_popup_menu",
                                "rc_select",
-                               "rc_insert_row",
-                               "rc_delete_row",
-                               "copy",
-                               "cut",
-                               "paste",
-                               "delete",
-                               "undo",
-                               "edit_cell"))
+                               "copy"))
+        sheet.pack(expand=1, fill=tk.BOTH)
         top.mainloop()
 
-ipTable()
