@@ -62,7 +62,9 @@ def locationOf(ip):
        except:
            verificacion="N/A"
     database2.close()
-    return location if verificacion==location else "N/A"
+
+    #verificacion = location
+    return location if verificacion == location else "N/A"
 
 
 def proxyOf(ip):
@@ -82,6 +84,7 @@ def asnOf(ip):
         except:
             asn="N/A"
     db.close()
+
     with maxminddb.open_database(('data/asn/dbip-asn-lite-2021-04.mmdb')) as db2:
         try:
             full_response = db2.get(ip)
@@ -89,10 +92,13 @@ def asnOf(ip):
         except:
             validation = "N/A"
     db2.close()
+
+    #validation = asn
     return organizationName if asn==validation else "N/A"
 
-def checkTorNode(ip, tor_database):
-    return ip in tor_database and  ip in tor_validation
+def checkTorNode(ip):
+    return ip in tor_database and ip in tor_validation
+    #return ip in tor_database
 
 
 def getIPListFrom(file_to_analyze):
@@ -105,8 +111,8 @@ def getIPListFrom(file_to_analyze):
 class IPAnalyzer():
     def __init__(self, file_to_analyze):
      with ZipFile('data.zip', 'r') as zipObj:
-            zipObj.extractall()
-        if file_to_analyze != "":
+         zipObj.extractall()
+         if file_to_analyze != "":
             self.fileToAnalyze = file_to_analyze
             self.iPList = getIPListFrom(file_to_analyze)
             self.processIpList()
@@ -134,11 +140,14 @@ class IPAnalyzer():
 
     def processIpList(self):
         ip_list = self.iPList
+        i=0
         for ip in ip_list:
             location = locationOf(ip[0])
             is_proxy = proxyOf(ip[0])
-            tor_node = str(checkTorNode(ip[0], tor_database))
+            tor_node = str(checkTorNode(ip[0]))
             asn=asnOf(ip[0])
+            print("ip numero:",i)
+            i+=1
             ip.append(location)
             ip.append(is_proxy)
             ip.append(tor_node)
