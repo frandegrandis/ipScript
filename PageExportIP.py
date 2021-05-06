@@ -29,12 +29,12 @@ class PageExportIP(Page):
 
     def setTableWidget(self):
         label2 = tk.Label(self, text="IPs procesadas", font="Bahnschrift 13", bg="white")
-        label2.place(x=297, y=170)
+        label2.place(x=220, y=170)
 
         headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASM"]
 
         tableFrame = tk.Frame(self, bg=self.color["white"])
-        tableFrame.place(x=400, y=230, height=200, width=800)
+        tableFrame.place(x=220, y=230, height=300, width=800)
 
         self.sheet = tksheet.Sheet(tableFrame, headers=headers)
 
@@ -56,7 +56,6 @@ class PageExportIP(Page):
 
     def saveFile(self):
         self.ipAnalyzer = IPAnalyzer()
-
 
         files = [('CSV Files', '*.csv')]
 

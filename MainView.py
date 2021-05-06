@@ -12,7 +12,11 @@ class MainView(tk.Frame):
         color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888"}
 
         p1 = PageLoadIP(self)
+        p1.config(bg=color["white"])
+
         p2 = PageExportIP(self)
+        p2.config(bg=color["white"])
+
         #p3 = Page3(self)
 
         buttonframe = tk.Frame(self, bg=color["green"])
@@ -41,8 +45,8 @@ class MainView(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     settings.init()
-    root.config(bg="white")
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("1280x720")
+    root.resizable(width=False, height=False)
     root.mainloop()
