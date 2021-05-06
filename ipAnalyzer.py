@@ -165,4 +165,4 @@ class IPAnalyzer():
 
 with ZipFile('data.zip', 'r') as zipObj:
     zipObj.extractall()
-    tor_database,tor_validation = generateTorIpDB()
+    tor_database, tor_validation = generateTorIpDB()

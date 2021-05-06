@@ -1,15 +1,26 @@
-import tkinter as tk
-from tkinter import PhotoImage
-from LoadIPWindow import LoadIPWindow
-from ExportIPWindow import ExportIPWindow
-from PageLoadIP import PageLoadIP
-from PageExportIP import PageExportIP
 import settings
+import tkinter as tk
+from PageExportIP import PageExportIP
+from PageLoadIP import PageLoadIP
+import os
+from tkinter import *
+from tkinter.ttk import *
+from tkinter.filedialog import askopenfile
+import tksheet
+from tkinter import *
+from tkinter.ttk import *
+from tkinter.filedialog import askopenfile
+from ipAnalyzer import IPAnalyzer
+from Page import Page
+import tkinter as tk
+from tkinter import messagebox
+
+
 
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888"}
+        color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888", "darkGreen": "#5c8712"}
 
         p1 = PageLoadIP(self)
         p1.config(bg=color["white"])
@@ -32,12 +43,12 @@ class MainView(tk.Frame):
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         #p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        b1 = tk.Button(buttonframe, text="Cargar IPs", command=p1.lift)
-        b2 = tk.Button(buttonframe, text="Visualizar IPs", command=p2.updateTable)
+        b1 = tk.Button(buttonframe, text="Cargar IPs", command=p1.lift, bg= "#dddddd", activebackground="#939393")
+        b2 = tk.Button(buttonframe, text="Visualizar IPs", command=p2.updateTable,bg= "#dddddd", activebackground="#939393")
         #b3 = tk.Button(buttonframe, text="Métricas", command=p3.lift)
 
-        b1.pack(side="left")
-        b2.pack(side="left")
+        b1.pack(side="left",padx = 5, pady=5)
+        b2.pack(side="left",padx = 5, pady=5)
         #b3.pack(side="left")
 
         p1.show()

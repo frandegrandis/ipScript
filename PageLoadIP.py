@@ -5,6 +5,7 @@ from tkinter.filedialog import askopenfile
 from ipAnalyzer import IPAnalyzer
 from Page import Page
 import tkinter as tk
+from tkinter import messagebox
 import settings
 
 class PageLoadIP(Page):
@@ -29,6 +30,7 @@ class PageLoadIP(Page):
         self.ipAnalyzer.read(self.directoryPath)
         self.ipAnalyzer.processIpList()
         settings.data = self.ipAnalyzer.getIPList()
+        messagebox.showinfo(title="Operacion exitosa", message="La operacion se ha realizado de forma exitosa")
 
 
     # TEXT BOX WIDGET

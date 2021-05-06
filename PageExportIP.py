@@ -47,8 +47,8 @@ class PageExportIP(Page):
 
     def sortTable(self, event=None):
         # Event es una tupla del estilo (evento,columna_seleccionada)
-        self.data = sorted(self.data, key=lambda x: x[event[1]])
-        self.sheet.set_sheet_data(self.data)
+        settings.data = sorted(settings.data, key=lambda x: x[event[1]])
+        self.sheet.set_sheet_data(settings.data)
 
     def updateTable(self):
         self.sheet.set_sheet_data(settings.data)
