@@ -10,6 +10,7 @@ import maxminddb
 import pandas as pd
 import datetime
 from zipfile import ZipFile
+
 def remove_entersFromAndMakeList(ip_list):
     for i in range(len(ip_list)):
         ip = ip_list[i]
@@ -109,16 +110,18 @@ def getIPListFrom(file_to_analyze):
 
 
 class IPAnalyzer():
-    def __init__(self, file_to_analyze):
-     with ZipFile('data.zip', 'r') as zipObj:
-         zipObj.extractall()
-         if file_to_analyze != "":
+
+    def __init__(self):
+      self.iPList=[]
+    def read(self,file_to_analyze):
+        if file_to_analyze != "":
             self.fileToAnalyze = file_to_analyze
             self.iPList = getIPListFrom(file_to_analyze)
-            self.processIpList()
 
-    def findLocationOfIpList(self):
+    def findLocationOfIpList(self,data=[]):
         ip_list = self.iPList
+        if len(ip_list)==0:
+            ip_list=data
         for ip in ip_list:
             location = locationOf(ip[0])
             ip.append(location)
@@ -146,12 +149,20 @@ class IPAnalyzer():
             is_proxy = proxyOf(ip[0])
             tor_node = str(checkTorNode(ip[0]))
             asn=asnOf(ip[0])
-            print("ip numero:",i)
-            i+=1
+
             ip.append(location)
             ip.append(is_proxy)
             ip.append(tor_node)
             ip.append(asn)
 
+    def exportCSV(self,file_name,data=[],):
 
-tor_database,tor_validation = generateTorIpDB()
+        ip_list = self.iPList
+        if len(ip_list) == 0:
+            ip_list = data
+        df=pd.DataFrame(ip_list,columns=['IP','Country','Proxy','Tor','ASN'])
+        df.to_csv(f'{file_name}.csv')
+
+with ZipFile('data.zip', 'r') as zipObj:
+    zipObj.extractall()
+    tor_database,tor_validation = generateTorIpDB()
