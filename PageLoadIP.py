@@ -19,7 +19,7 @@ class PageLoadIP(Page):
         self.directoryPath = None
 
         labelTitle = tk.Label(self, text="Cargar IPs en el Sistema", font="Bahnschrift 20 bold", bg="white")
-        labelTitle.place(x=450, y=80)
+        labelTitle.place(x=450, y=40)
 
         self.setTextBoxWidget()
         self.setBrowseFileWidget()
@@ -45,13 +45,13 @@ class PageLoadIP(Page):
 
     def setTextBoxWidget(self):
         label1 = tk.Label(self, text="Ingrese las IPs a analizar:", font="Bahnschrift 13", bg="white")
-        label1.place(x=297, y=170)
+        label1.place(x=297, y=120)
 
         self.inputTxt = Text(self, bg="#FAFAFA", height=10)
-        self.inputTxt.place(x=300, y=200)
+        self.inputTxt.place(x=300, y=150)
 
         btn = Button(self, text="Procesar", command=lambda: self.storeInput())
-        btn.place(x=580, y=390)
+        btn.place(x=580, y=340)
         btn.config()
 
     # BROWSE FILES WIDGET
@@ -70,17 +70,17 @@ class PageLoadIP(Page):
             self.directoryPath = file.name
             self.filepath.set(file.name)
             self.entry = Entry(self, textvariable=self.filepath, width=90, state=DISABLED)
-            self.entry.place(x=400, y=487)
+            self.entry.place(x=400, y=447)
 
     def setBrowseFileWidget(self):
         label2 = tk.Label(self, text="O cargue un archivo con las IPs:", font="Bahnschrift 13", bg="white")
-        label2.place(x=297, y=450)
+        label2.place(x=297, y=410)
 
         btn = Button(self, text='Abrir', command=lambda: self.openFile())
-        btn.place(x=297, y=485)
+        btn.place(x=297, y=445)
 
         self.entry = Entry(self, width=90, state=DISABLED)
-        self.entry.place(x=400, y=487)
+        self.entry.place(x=400, y=447)
 
         btnPr = Button(self, text="Procesar", command=lambda: self.analysis())
-        btnPr.place(x=580, y=533)
+        btnPr.place(x=580, y=493)
