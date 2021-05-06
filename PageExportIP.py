@@ -32,7 +32,6 @@ class PageExportIP(Page):
         label2.place(x=297, y=170)
 
         headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASM"]
-        #data = [["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1]]
 
         tableFrame = tk.Frame(self, bg=self.color["white"])
         tableFrame.place(x=400, y=230, height=200, width=800)
@@ -59,14 +58,12 @@ class PageExportIP(Page):
         self.ipAnalyzer = IPAnalyzer()
 
 
-        files = [('Text Files', '*.txt'),
-                 ('XML Files', '*.xml'),
-                 ('JSON Files', '*.json'),
-                 ('CSV Files', '*.csv')]
+        files = [('CSV Files', '*.csv')]
 
-        file = asksaveasfile(filetypes=files, defaultextension=files)
+        file = asksaveasfile(filetypes=files, defaultextension='*.csv')
 
         # TODO aca va la funcionaidad de exportar
+        self.ipAnalyzer.exportCSV(file.name,settings.data)
 
     def setExportWidget(self):
         label1 = tk.Label(self, text="Exportar IPs", font="Bahnschrift 13", bg="white")
@@ -78,10 +75,7 @@ class PageExportIP(Page):
         self.setDropdownWidget()
 
     def setDropdownWidget(self):
-        optionsList = ["Text File (*.txt)",
-                       "XML File (*.xml)",
-                       "JSON File (*.json)",
-                       "CSV File (*.csv)"]
+        optionsList = ["CSV File (*.csv)"]
 
         optSelected = StringVar()
         optSelected.set("one") # default value

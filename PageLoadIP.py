@@ -25,9 +25,9 @@ class PageLoadIP(Page):
         self.setBrowseFileWidget()
 
     def analysis(self):
-        self.ipAnalyzer = IPAnalyzer(self.directoryPath)
-        print(self.ipAnalyzer.getIPList())
-
+        self.ipAnalyzer = IPAnalyzer()
+        self.ipAnalyzer.read(self.directoryPath)
+        self.ipAnalyzer.processIpList()
         settings.data = self.ipAnalyzer.getIPList()
 
 
