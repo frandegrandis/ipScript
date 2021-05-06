@@ -10,7 +10,7 @@ class IPTable(QWidget):
         self.layout.addWidget(self.table)
 
         self.data = data
-        self.headers = ['IP', 'Location', 'TorNode']
+        self.headers = ['IP', 'Location', 'Is Proxy', 'TorNode', 'asm']
         self.creatingTables()
 
         self.setLayout(self.layout)
