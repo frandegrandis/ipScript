@@ -1,8 +1,10 @@
+import os
 from abc import ABC
 from tkinter import *
 from tkinter.ttk import *
 from MainWindow import MainWindow
 from tkinter.filedialog import askopenfile
+from ipAnalyzer import IPAnalyzer
 import tkinter as tk
 
 
@@ -17,6 +19,9 @@ class LoadIPWindow(MainWindow, ABC):
         self.inputTxt = None
         self.entry = None
         self.filepath = tk.StringVar()
+        self.ipAnalyzer = None
+        self.directoryPath = None
+
 
     def setMainWindow(self):
         super().setMainWindow()
@@ -39,13 +44,14 @@ class LoadIPWindow(MainWindow, ABC):
             #TODO tampoco me voy a calentar haciendo esto ahora, no es tan importante
 
             # Show directory path
+            self.directoryPath = file.name
             self.filepath.set(file.name)
             self.entry = Entry(self.root, textvariable=self.filepath, width=90, state=DISABLED)
             self.entry.place(x=400, y=487)
 
-            # Do magic with the IPs
-            content = file.read()
-            print(content) # To test if it's working
+    def analysis(self):
+        self.ipAnalyzer = IPAnalyzer(self.directoryPath)
+        print(self.ipAnalyzer.getIPList())
 
     def setBrowseFileWidget(self):
         label2 = tk.Label(self.root, text="O cargue un archivo con las IPs:", font="Bahnschrift 13", bg="white")
@@ -58,14 +64,20 @@ class LoadIPWindow(MainWindow, ABC):
         self.entry.place(x=400, y=487)
 
         # TODO a este boton hay que ponerle el comando (metodo) que hace la magia del procesamiento de ips
-        btnPr = Button(self.root, text="Procesar", command=lambda: self.storeInput())
+        btnPr = Button(self.root, text="Procesar", command=lambda: self.analysis())
         btnPr.place(x=580, y=533)
 
     # TEXT BOX WIDGET
 
     def storeInput(self):
         input = self.inputTxt.get("1.0", "end-1c")
-        print(input)
+        text_file = open("ips.txt", "w")
+        self.directoryPath = "ips.txt"
+        text_file.write(input)
+        text_file.close()
+
+        self.analysis()
+        os.remove("ips.txt")
 
     def setTextBoxWidget(self):
         label1 = tk.Label(self.root, text="Ingrese las IPs a analizar:", font="Bahnschrift 13", bg="white")
