@@ -5,6 +5,7 @@ from tkinter.filedialog import askopenfile
 from ipAnalyzer import IPAnalyzer
 from Page import Page
 import tkinter as tk
+import settings
 
 class PageLoadIP(Page):
     def __init__(self, *args, **kwargs):
@@ -26,6 +27,9 @@ class PageLoadIP(Page):
     def analysis(self):
         self.ipAnalyzer = IPAnalyzer(self.directoryPath)
         print(self.ipAnalyzer.getIPList())
+
+        settings.data = self.ipAnalyzer.getIPList()
+
 
     # TEXT BOX WIDGET
 

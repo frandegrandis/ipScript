@@ -8,6 +8,7 @@ from ipAnalyzer import IPAnalyzer
 from Page import Page
 import tkinter as tk
 from tkinter.filedialog import asksaveasfile
+import settings
 
 
 class PageExportIP(Page):
@@ -15,7 +16,7 @@ class PageExportIP(Page):
         Page.__init__(self, *args, **kwargs)
 
         self.sheet = None
-
+        self.ipAnalyzer = None
         self.color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888"}
 
         labelTitle = tk.Label(self, text="Visualizar y Exportar IPs del Sistema", font="Bahnschrift 20 bold", bg="white")
@@ -31,14 +32,14 @@ class PageExportIP(Page):
         label2.place(x=297, y=170)
 
         headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASM"]
-        data = [["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1]]
+        #data = [["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1],["Fran","arg",1,1]]
 
         tableFrame = tk.Frame(self, bg=self.color["white"])
         tableFrame.place(x=400, y=230, height=200, width=800)
 
         self.sheet = tksheet.Sheet(tableFrame, headers=headers)
 
-        self.sheet.set_sheet_data(data)
+        self.sheet.set_sheet_data(settings.data)
         self.sheet.enable_bindings()
         self.sheet.extra_bindings("column_select", func=self.sortTable)
         self.sheet.pack(expand=1, fill=tk.BOTH)
@@ -48,15 +49,24 @@ class PageExportIP(Page):
         self.data = sorted(self.data, key=lambda x: x[event[1]])
         self.sheet.set_sheet_data(self.data)
 
+    def updateTable(self):
+        self.sheet.set_sheet_data(settings.data)
+        self.lift()
+
     # EXPORT WIDGET
 
     def saveFile(self):
+        self.ipAnalyzer = IPAnalyzer()
+
+
         files = [('Text Files', '*.txt'),
                  ('XML Files', '*.xml'),
                  ('JSON Files', '*.json'),
                  ('CSV Files', '*.csv')]
 
         file = asksaveasfile(filetypes=files, defaultextension=files)
+
+        # TODO aca va la funcionaidad de exportar
 
     def setExportWidget(self):
         label1 = tk.Label(self, text="Exportar IPs", font="Bahnschrift 13", bg="white")

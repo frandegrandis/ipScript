@@ -29,7 +29,7 @@ class MainView(tk.Frame):
         #p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         b1 = tk.Button(buttonframe, text="Cargar IPs", command=p1.lift)
-        b2 = tk.Button(buttonframe, text="Visualizar IPs", command=p2.lift)
+        b2 = tk.Button(buttonframe, text="Visualizar IPs", command=p2.updateTable)
         #b3 = tk.Button(buttonframe, text="Métricas", command=p3.lift)
 
         b1.pack(side="left")
@@ -40,6 +40,7 @@ class MainView(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
+    settings.init()
     root.config(bg="white")
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
