@@ -1,14 +1,13 @@
-import os
 from tkinter import *
 from tkinter.ttk import *
-from tkinter.filedialog import askopenfile
-import tksheet
-
 from ipAnalyzer import IPAnalyzer
-from Page import Page
-import tkinter as tk
 from tkinter.filedialog import asksaveasfile
+from Page import Page
+
+import tksheet
 import settings
+import tkinter as tk
+
 
 
 class PageExportIP(Page):
@@ -20,7 +19,7 @@ class PageExportIP(Page):
         self.color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888"}
 
         labelTitle = tk.Label(self, text="Visualizar y Exportar IPs del Sistema", font="Bahnschrift 20 bold", bg="white")
-        labelTitle.place(x=400, y=40)
+        labelTitle.place(x=120, y=40)
 
         self.setTableWidget()
         self.setExportWidget()
@@ -29,12 +28,12 @@ class PageExportIP(Page):
 
     def setTableWidget(self):
         label2 = tk.Label(self, text="IPs procesadas", font="Bahnschrift 13", bg="white")
-        label2.place(x=220, y=120)
+        label2.place(x=10, y=120)
 
         headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASM"]
 
         tableFrame = tk.Frame(self, bg=self.color["black"])
-        tableFrame.place(x=220, y=160, height=300, width=800)
+        tableFrame.place(x=10, y=160, height=300, width=803)
 
         # Para más opciones de customizado ver el github del flaco que armo la dependencia tksheet
         self.sheet = tksheet.Sheet(tableFrame, headers=headers, show_x_scrollbar=False, column_width=154)
@@ -67,10 +66,10 @@ class PageExportIP(Page):
 
     def setExportWidget(self):
         label1 = tk.Label(self, text="Exportar IPs", font="Bahnschrift 13", bg="white")
-        label1.place(x=220, y=500)
+        label1.place(x=10, y=500)
 
         btn = Button(self, text='Exportar', command=lambda: self.saveFile())
-        btn.place(x=343, y=535)
+        btn.place(x=145, y=535)
 
         self.setDropdownWidget()
 
@@ -81,6 +80,6 @@ class PageExportIP(Page):
         optSelected.set("one") # default value
 
         dropdown = OptionMenu(self, optSelected, *optionsList)
-        dropdown.place(x=220, y=536)
+        dropdown.place(x=10, y=536)
 
         # TODO en base a la opcion elegida deberiamos hacer la conversion a ese formato

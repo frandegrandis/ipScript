@@ -1,19 +1,10 @@
-import settings
-import tkinter as tk
 from PageExportIP import PageExportIP
 from PageLoadIP import PageLoadIP
-import os
 from tkinter import *
-from tkinter.ttk import *
-from tkinter.filedialog import askopenfile
-import tksheet
-from tkinter import *
-from tkinter.ttk import *
-from tkinter.filedialog import askopenfile
-from ipAnalyzer import IPAnalyzer
-from Page import Page
+
+import settings
 import tkinter as tk
-from tkinter import messagebox
+
 
 
 
@@ -34,7 +25,7 @@ class MainView(tk.Frame):
         #p3 = Page3(self)
 
         buttonframe = tk.Frame(self, bg=color["green"])
-        container = tk.Frame(self)
+        container = tk.Frame(self, bg=color["white"])
 
         buttonframe.pack(side="top", fill="x", expand=False)
         container.pack(side="top", fill="both", expand=True)
@@ -42,16 +33,16 @@ class MainView(tk.Frame):
         homeLabel = tk.Label(buttonframe, text="IP Tracker", font="Bahnschrift 15", bg=color["green"], fg="gray17", height=2, padx=20)
         homeLabel.pack(side="right")
 
-        p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p1.place(in_=container, x=280, y=0, relwidth=1, relheight=1)
+        p2.place(in_=container, x=280, y=0, relwidth=1, relheight=1)
         #p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        navRoot = tk.Frame(self, bg="gray17", height=1000, width=270)
-        navRoot.place(x=-270, y=0)
-        #tk.Label(navRoot, font="Bahnschrift 15", bg=color["green"], fg="black", height=2, width=270, padx=20).place(x=0, y=0)
+        self.navRoot = tk.Frame(self, bg="gray17", height=1000, width=270)
+        self.navRoot.place(x=-270, y=0)
+        tk.Label(self.navRoot, font="Bahnschrift 15", bg=color["green"], fg="black", height=2, width=270, padx=20).place(x=0, y=0)
 
-        b1 = tk.Button(navRoot, text="Cargar IPs", command=p1.lift, bg= "#dddddd", activebackground="#939393")
-        b2 = tk.Button(navRoot, text="Visualizar IPs", command=p2.updateTable,bg= "#dddddd", activebackground="#939393")
+        b1 = tk.Button(self.navRoot, text="Cargar IPs", command=p1.lift, font="BahnschriftLight 15", bg="gray17", fg=color["white"], activebackground="gray17", activeforeground="green", bd=0)
+        b2 = tk.Button(self.navRoot, text="Visualizar IPs", command=p2.updateTable, font="BahnschriftLight 15", bg="gray17", fg=color["white"], activebackground="gray17", activeforeground="green", bd=0)
 
         b1.place(x=25, y=80)
         b2.place(x=25, y=120)
@@ -59,13 +50,13 @@ class MainView(tk.Frame):
         def switch():
             if self.btnState is True:
                 for x in range(271):
-                    navRoot.place(x=-x, y=0)
+                    self.navRoot.place(x=-x, y=0)
                     buttonframe.update()
 
                 self.btnState = False
             else:
                 for x in range(-270, 0):
-                    navRoot.place(x=x, y=0)
+                    self.navRoot.place(x=x, y=0)
                     buttonframe.update()
 
                 self.btnState = True
@@ -73,10 +64,11 @@ class MainView(tk.Frame):
         openBtn = tk.Button(buttonframe, image=self.navIcon, bg=color["green"], activebackground=color["green"], bd=0, padx=20, command=switch)
         openBtn.place(x=10,y=10)
 
-        closeBtn = tk.Button(navRoot, image=self.closeIcon, bg=color["green"], activebackground=color["green"], bd=0, command=switch)
+        closeBtn = tk.Button(self.navRoot, image=self.closeIcon, bg=color["green"], activebackground=color["green"], bd=0, command=switch)
         closeBtn.place(x=240, y=12)
 
-        #p1.show()
+        p1.show()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
