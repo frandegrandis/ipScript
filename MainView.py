@@ -21,6 +21,9 @@ class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         color = {"nero": "#252726", "green": "#85BC26", "black": "#000000", "white": "#FFFFFF", "grey": "#BBBBBB", "darkgrey": "#888888", "darkGreen": "#5c8712"}
+        self.navIcon = PhotoImage(file="Resources/menu.png")
+        self.closeIcon = PhotoImage(file="Resources/close.png")
+        self.btnState = False
 
         p1 = PageLoadIP(self)
         p1.config(bg=color["white"])
@@ -43,15 +46,37 @@ class MainView(tk.Frame):
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         #p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        b1 = tk.Button(buttonframe, text="Cargar IPs", command=p1.lift, bg= "#dddddd", activebackground="#939393")
-        b2 = tk.Button(buttonframe, text="Visualizar IPs", command=p2.updateTable,bg= "#dddddd", activebackground="#939393")
-        #b3 = tk.Button(buttonframe, text="Métricas", command=p3.lift)
+        navRoot = tk.Frame(self, bg="gray17", height=1000, width=270)
+        navRoot.place(x=-270, y=0)
+        #tk.Label(navRoot, font="Bahnschrift 15", bg=color["green"], fg="black", height=2, width=270, padx=20).place(x=0, y=0)
 
-        b1.pack(side="left",padx = 5, pady=5)
-        b2.pack(side="left",padx = 5, pady=5)
-        #b3.pack(side="left")
+        b1 = tk.Button(navRoot, text="Cargar IPs", command=p1.lift, bg= "#dddddd", activebackground="#939393")
+        b2 = tk.Button(navRoot, text="Visualizar IPs", command=p2.updateTable,bg= "#dddddd", activebackground="#939393")
 
-        p1.show()
+        b1.place(x=25, y=80)
+        b2.place(x=25, y=120)
+
+        def switch():
+            if self.btnState is True:
+                for x in range(271):
+                    navRoot.place(x=-x, y=0)
+                    buttonframe.update()
+
+                self.btnState = False
+            else:
+                for x in range(-270, 0):
+                    navRoot.place(x=x, y=0)
+                    buttonframe.update()
+
+                self.btnState = True
+
+        openBtn = tk.Button(buttonframe, image=self.navIcon, bg=color["green"], activebackground=color["green"], bd=0, padx=20, command=switch)
+        openBtn.place(x=10,y=10)
+
+        closeBtn = tk.Button(navRoot, image=self.closeIcon, bg=color["green"], activebackground=color["green"], bd=0, command=switch)
+        closeBtn.place(x=240, y=12)
+
+        #p1.show()
 
 if __name__ == "__main__":
     root = tk.Tk()
