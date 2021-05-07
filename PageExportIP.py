@@ -63,7 +63,6 @@ class PageExportIP(Page):
 
         file = asksaveasfile(filetypes=files, defaultextension='*.csv')
 
-        # TODO aca va la funcionaidad de exportar
         self.ipAnalyzer.exportCSV(file.name,settings.data)
 
     def setExportWidget(self):

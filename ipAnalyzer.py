@@ -161,7 +161,7 @@ class IPAnalyzer():
         if len(ip_list) == 0:
             ip_list = data
         df=pd.DataFrame(ip_list,columns=['IP','Country','Proxy','Tor','ASN'])
-        df.to_csv(f'{file_name}.csv')
+        df.to_csv(f'{file_name}')
 
 with ZipFile('data.zip', 'r') as zipObj:
     zipObj.extractall()
