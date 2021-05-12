@@ -30,7 +30,7 @@ class PageExportIP(Page):
         label2 = tk.Label(self, text="IPs procesadas", font="Bahnschrift 13", bg="white")
         label2.place(x=10, y=120)
 
-        headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASM"]
+        headers = ["IP", "Location", "Is Proxy", "Tor Node", "ASN"]
 
         tableFrame = tk.Frame(self, bg=self.color["black"])
         tableFrame.place(x=10, y=160, height=300, width=803)
